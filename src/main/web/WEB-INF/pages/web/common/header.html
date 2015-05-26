@@ -1,0 +1,51 @@
+<div class="header-wrapper">
+	<header>
+	        <div class="container">
+	                <div class="logo-container">
+	                      <!-- Website Logo -->
+				          <a href="${ctx!}/index"  title="Knowledge Base Theme">
+				                  <img src="${ctx}/html/css/images/logo.png" alt="Knowledge Base Theme">
+				          </a>
+				          <span class="tag-line"></span>
+				  </div>
+	
+				  <!-- Start of Main Navigation -->
+				  <nav class="main-nav">
+				          <div class="menu-top-menu-container">
+				                  <ul id="menu-top-menu" class="clearfix">
+				                          <li ><a href="${ctx}/index">首页</a></li>
+				                          <li><a href="${ctx}/web/list">文章列表</a></li>
+				                          <li><a href="javascript:viod();">我的项目</a>
+				                                  <ul class="sub-menu">
+				                                          <#list myProject as mp>
+				                                          	<li><a href="${mp.url!}">${mp.name!}</a></li>
+				                                          </#list>
+				                                  </ul>
+				                          </li>
+				                          <li><a href="${ctx}/web/message">留言板</a></li>
+				                          <!-- <li><a href="${ctx}/web/about">关于</a></li> -->
+				                  </ul>
+				          </div>
+				  </nav>
+				  <!-- End of Main Navigation -->
+	
+	        </div>
+	</header>
+</div>
+
+<!-- Start of Search Wrapper -->
+<#-- 
+<div class="search-area-wrapper">
+        <div class="search-area container">
+                <h3 class="search-header">有疑问?</h3>
+                <p class="search-tag-line">如果你有疑问可以使用下面的搜索(建设中...)!</p>
+
+                <form id="search-form" class="search-form clearfix" method="get" action="#" autocomplete="off">
+                        <input class="search-term required" type="text" id="s" name="s" placeholder="请在这里输入您的搜索条件" title="* 请输入一个搜索词!" />
+                        <input class="search-btn" type="submit" value="搜索" />
+                        <div id="search-error-container"></div>
+                </form>
+        </div>
+</div>
+ -->
+<!-- End of Search Wrapper -->

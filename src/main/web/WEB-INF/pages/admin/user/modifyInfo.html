@@ -1,0 +1,70 @@
+<div class="pageContent">
+	<form method="post" action="${ctx!}/admin/user/modifyInfo" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+		<div class="pageFormContent">
+			<input name="user.id" type="hidden" value="${user.id!}"/>
+			<p>
+				<label style="text-align: right;">用户名：</label>
+				<span style="position: absolute;top: 10px;" >${user.username!}</span>
+			</p>
+			<div class="divider"></div>
+			<p class="nowrap">
+				<label style="text-align: right;">当前密码：</label>
+					<input id="currentPwd" name="currentPwd" type="password" maxlength="32"/>
+					<span class="info">&nbsp;&nbsp;无需修改密码时，请勿编辑!</span>
+			</p>
+			<p class="nowrap">
+				<label style="text-align: right;">新密码：</label>
+				<input id="newPwd" name="newPwd" type="password" maxlength="32"/>
+				<span class="info">&nbsp;&nbsp;修改密码时，请输入新密码!</span>
+			</p>
+			<p class="nowrap">
+				<label style="text-align: right;">确认密码：</label>
+				<input id="verifyPwd" name="verifyPwd" type="password" maxlength="32"/>
+				<span class="info">&nbsp;&nbsp;请再次确认新密码!</span>
+			</p>
+			<div class="divider"></div>
+			<p>
+				<label style="text-align: right;">姓名：</label>
+				<input name="user.name" type="text" value="${user.name!}" class="required"/>
+			</p>
+			<p>
+				<label style="text-align: right;">昵称：</label>
+				<input name="user.nickname" type="text" value="${user.nickname!}" />
+			</p>
+			<p>
+				<label style="text-align: right;">性别：</label>
+				<input type="radio" name="user.sex" class="required" value="0" <#if !user.sex?? || user.sex == '0'>checked="checked"</#if>/>男
+				<input type="radio" name="user.sex" class="required" value="1" <#if user.sex?? && user.sex == '1'>checked="checked"</#if>/>女
+			</p>
+			<p>
+				<label style="text-align: right;">生日：</label>
+				<input name="user.birthday" value="${user.birthday!}" type="text" class="date textInput readonly" readonly="true" datefmt="yyyy-MM-dd" />
+				<a class="inputDateButton" href="javascript:;">选择</a>
+			</p>
+			<p>
+				<label style="text-align: right;">个人网站：</label>
+				<input name="user.website" type="text" value="${user.website!}" />
+			</p>
+			<p>
+				<label style="text-align: right;">用户类型：</label>
+				<span style="position: absolute;top: 10px;"><#if user.type == '0'>普通用户<#else>管理员</#if></span>
+			</p>
+			<p class="nowrap" style="height: 70px">
+				<label style="text-align: right;">所属角色：</label>
+				<#list roleRescs as role>
+					<#if roleStr?index_of("-"+role.id?string+"-") != -1>
+						<#if role.enable == '0'> <span style="color:green;position: absolute;top: 10px;">${role.name}</span> <#else> <span style="color:red;position: absolute;top: 10px;">${role.name}(停用)</span> </#if>
+					</#if>
+				</#list>
+			</p>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li>
+					<div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+				</li>
+			</ul>
+		</div>
+	</form>
+</div>

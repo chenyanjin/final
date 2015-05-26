@@ -1,0 +1,30 @@
+<div class="page unitBox">
+	<div class="accountInfo">
+		<div class="alertInfo">
+			<h2>
+				本次登录时间 <span style="color: blue">${session['loginUser'].last_login_time!}</span>
+			</h2>
+			<h2>
+				本次登录IP <span style="color: red">${session['loginUser'].last_login_ip!}</span>
+			</h2>
+
+		</div>
+
+		<div class="left">
+			<p>
+				<span>网站访问地址 <a href="${ctx!}" target="_blank">${ctx!}</a></span>
+			</p>
+			<p>网站管理地址 ${ctx!}/admin/login</p>
+		</div>
+		<div class="center"></div>
+		<div class="right">
+			<p>系统版本：${systemConfig['WEBVERSION']!} &nbsp;&nbsp;</p>
+		</div>
+	</div>
+	<div class="pageFormContent" layoutH="80" style="margin-right:5px" align="left">
+		<h2>系统概述:</h2>
+		<div class="unit" style="line-height:19px; text-indent: 20px;">
+			系统架构：JDK 1.7  J2EE 6.0 web服务器：Tomcat 7.0.42 数据库：MySQL 5.6.19 </div>
+		<div class="divider"></div>
+	</div>
+</div>

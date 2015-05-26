@@ -1,0 +1,94 @@
+<div class="pageContent">
+	<form method="post" action="${ctx!}/admin/roleresc/modifyResc" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+		<div class="pageFormContent">
+			<input name="resc.id" type="hidden" value="${resc.id!}"/>
+			<P>
+				<label style="text-align: right;">上级链接：</label>
+				<select name="resc.pid" class="combox">
+					<#list rescs as s>
+						<option value="${s.id}" <#if resc.pid?? && resc.pid == s.id>selected="selected"</#if>>
+							|<#list 0..s.level as i>-</#list>${s.name}
+						</option>
+					</#list>
+				</select>
+			</P>
+			<P>
+				<label style="text-align: right;">功能类型：</label>
+				<select name="resc.function_type" class="combox">
+					<#list functionTypes as ft>
+						<option value="${ft.id}" <#if resc.function_type?? && resc.function_type == ft.id>selected="selected"</#if>>${ft.name}</option>
+					</#list>
+				</select>
+			</P>
+			<p>
+				<label style="text-align: right;">排序：</label>
+				<input name="resc.sort" type="text" maxlength="3" size="4" value="${resc.sort!}" class="required number"/>
+			</p>
+			<p>
+				<label style="text-align: right;">类型：</label>
+				<input type="radio" name="resc.type" class="required" value="0" <#if !resc.type?? || resc.type == '0'>checked="checked"</#if>/>前台
+				<input type="radio" name="resc.type" class="required" value="1" <#if resc.type?? && resc.type == '1'>checked="checked"</#if>/>后台
+			</p>
+			<p>
+				<label style="text-align: right;">状态：</label>
+				<input type="radio" name="resc.enable" class="required" value="0" <#if !resc.enable?? || resc.enable == '0'>checked="checked"</#if>/>启用
+				<input type="radio" name="resc.enable" class="required" value="1" <#if resc.enable?? && resc.enable == '1'>checked="checked"</#if>/>停用
+			</p>
+			<p>
+				<label style="text-align: right;">名称：</label>
+				<input name="resc.name" type="text" value="${resc.name!}" class="required"/>
+			</p>
+			<p>
+				<label style="text-align: right;">url：</label>
+				<input name="resc.url" type="text" <#if resc.url??>value="${resc.url!}"<#else>value="#"</#if> class="required" <#if resc.id??>readonly="true"</#if>/>
+			</p>
+			<p>
+				<label style="text-align: right;">rel：</label>
+				<input name="resc.rel" type="text" <#if resc.rel??>value="${resc.rel!}"<#else>value="#"</#if> class="required" <#if resc.id??>readonly="true"</#if>/>
+			</p>
+			<p>
+				<label style="text-align: right;">target：</label>
+				<select name="resc.target" class="combox" onchange="hideShow(this.value)">
+					<option value="#" <#if resc.target?? && resc.target == "#">selected="selected"</#if>>菜单项</option>
+					<option value="navTab" <#if resc.target?? && resc.target == "navTab">selected="selected"</#if>>navTab</option>
+					<option value="dialog" <#if resc.target?? && resc.target == "dialog">selected="selected"</#if>>dialog</option>
+				</select>
+			</p>
+			<p>
+				<label style="text-align: right;">width:</label>
+				<input id="width" name="resc.width" type="text" value="${resc.width!}" disabled="true"/>
+			</p>
+			<p>
+				<label style="text-align: right;">height:</label>
+				<input id="height" name="resc.height" type="text" value="${resc.height!}" disabled="true"/>
+			</p>
+			<p class="nowrap">
+				<label style="text-align: right;">描述：</label>
+				<textarea name="resc.remark" cols="20" rows="4">${resc.remark!}</textarea>
+			</p>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li>
+					<div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+				</li>
+			</ul>
+		</div>
+	</form>
+	<script language="javascript">
+		function hideShow(target){
+			if (target == "dialog"){
+				document.getElementById("width").disabled="";
+				document.getElementById("width").className="textInput required";
+				document.getElementById("height").disabled="";
+				document.getElementById("height").className="textInput required";
+			}else{
+				document.getElementById("width").disabled="true";
+				document.getElementById("width").className="textInput disabled";
+				document.getElementById("height").disabled="true";
+				document.getElementById("height").className="textInput disabled";
+			}
+		}
+	</script>
+</div>

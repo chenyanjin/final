@@ -1,0 +1,64 @@
+  		
+<div class="pageContent">
+	<form method="post" action="${ctx!}/admin/message/reply" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+		<div class="pageFormContent" layoutH="58">
+			<input name="message.pid" type="hidden" value="${message.id!}"/>
+			<fieldset class="nowrap">
+				<legend>留言详细信息</legend>
+				<dl>
+					<p>
+						<span style="float: left;">姓名：<strong>${message.name!}</strong></span>
+						<span style="float: right;">时间：<strong>${message.create_time!}</strong></span>
+					</p>
+				</dl>
+				<dl>
+					<dd><span>${message.content!}</span></dd>
+				</dl>
+			</fieldset>
+			<fieldset class="nowrap">
+				<legend>回复列表</legend>
+				<#list replys as r>
+				<dl>
+					<p>
+						<span style="float: left;">姓名：<strong <#if r.replyer == '1'>style="color:#d76a08;"<#elseif r.replyer == '2'>style="color:#4fb084;"</#if>>${r.name!}</strong></span>
+						<span style="float: right;">时间：<strong>${r.create_time!}</strong></span>
+					</p>
+				<dl>
+				<dl>
+					<dd>
+						<span>${r.content!}</span>
+					</dd>
+				</dl>
+				<dl>
+					<dd style="float:right;">
+						<a style="color:red;" href="${ctx!}/admin/message/deleteReply/${r.id}" target="ajaxTodo">&nbsp;删除&nbsp;</a>
+					</dd>
+				</dl>
+				<#if r_has_next>
+				<div class="divider"></div>
+				</#if>
+				</#list>
+			</fieldset>
+			<fieldset class="nowrap">
+				<legend>回复</legend>
+				<dl>
+					<label style="text-align: right;">姓名：</label>
+					<input name="message.name" type="text" class="required" maxlength="20" size="30"/>
+				</p>
+				<dl class="nowrap">
+					<label style="text-align:right;">内容：</label>
+					<textarea name="message.content" rows="3" cols="50" class="required"></textarea>
+				</dl>
+			</fieldset>
+		</div>
+		<div class="formBar">
+			<ul>
+				<!--<li><a class="buttonActive" href="javascript:;"><span>保存</span></a></li>-->
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">回复</button></div></div></li>
+				<li>
+					<div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+				</li>
+			</ul>
+		</div>
+	</form>
+</div>

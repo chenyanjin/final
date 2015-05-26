@@ -1,0 +1,12 @@
+<section class="widget">
+        <h3 class="title">推荐</h3>
+        <ul class="articles">
+	        <#list supportBlogs as sb>
+	                <li class="article-entry standard">
+	                        <h4><a href="${ctx!}/web/single/${sb.id!}">${sb.title!}</a></h4>
+	                        <span class="article-meta">${sb.create_time!} <a href="${ctx!}/web/list/1-${supportBlogTagId.get(sb.id)!}" title="显示${supportBlogTagName.get(sb.id)!} 标签的文章">${supportBlogTagName.get(sb.id)!}</a></a></span>
+	                        <span class="like-count">${sb.support!}</span>
+	                </li>
+	                </#list>
+        </ul>
+</section>

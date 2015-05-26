@@ -1,0 +1,72 @@
+<form id="pagerForm" method="post" action="${ctx!}/admin/roleresc/list"></form>
+
+<div class="pageContent">
+	<div layoutH="0" style="float:left; display:block; overflow:auto; width:600px; border-right:solid 1px #CCC; line-height:21px; background:#fff">
+		<div class="panelBar" style="margin-top: -1px;">
+			<ul class="toolBar">
+				<li><a class="add" href="${ctx!}/admin/roleresc/toModifyRolePage" target="dialog" rel="modifyRoleDialogs" title="新增角色" mask=true width="520" height="310"><span>添加</span></a></li>
+				<li class="line">line</li>
+				<li><a class="edit" href="${ctx!}/admin/roleresc/enableOrDisable" target="selectedTodo" rel="ids" title="确认启用 或 停用？"><span>批量启用(停用)</span></a></li>
+			</ul>
+		</div>
+		<table class="table" width="100%" layoutH="75">
+			<thead>
+				<tr>
+					<th width="30" align="center"><input type="checkbox" class="checkboxCtrl" group="ids" /></th>
+					<th width="40" align="center">序号</th>
+					<th width="100" align="left">名称</th>
+					<th width="120" align="center">创建时间</th>
+					<th width="40" align="center">类型</th>
+					<th width="40" align="center">状态</th>
+					<th width="40" align="center">排序</th>
+					<th align="left">备注</th>
+					<th width="110" align="center">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				<#list roles as s>
+				<tr>
+					<td><input type="checkbox" <#if !s.name?? || s.name != "超级管理员">name="ids" value="${s.id}"<#else>disabled="disabled"</#if> /></td>
+					<td>${s_index + 1}</td>
+					<td>${s.name!}</td>
+					<td>${s.create_time?string("yyyy-MM-dd HH:mm")!}</td>
+					<td><#if s.type == '0'> <div>前台</div> <#else> <div>后台</div> </#if></td>
+					<td><#if s.enable == '0'> <div>启用</div> <#else> <div style="color:red">停用</div> </#if></td>
+					<td>${s.sort!}</td>
+					<td>${s.remark!}</td>
+					<td>
+						<#if !s.name?? || s.name != "超级管理员">
+						&nbsp;
+						<a href="${ctx!}/admin/roleresc/toModifyRolePage/${s.id!}" target="dialog" title="编辑角色" rel="modifyRoleDialog" mask=true width="520" height="310" style="color:#3C7FB1">编辑</a>
+						<#if s.enable == '0'>
+							&nbsp;
+							<a href="javascript:binResc('${s.id}');" title="绑定权限" style="color:#3C7FB1">绑定权限</a>
+						</#if>
+						</#if>
+					</td>
+				</tr>
+				</#list>
+			</tbody>
+		</table>
+	</div>
+	<div id="jbsxBox" class="unitBox" style="margin-left:601px;">
+		<div class="panelBar">
+			<ul class="toolBar">
+				<li><a class="add" href="${ctx!}/admin/roleresc/toModifyRescPage" target="dialog" rel="modifyRescDialogs" title="新增权限" mask=true width="520" height="530"><span>添加</span></a></li>
+				<li class="line">line</li>
+			</ul>
+		</div>
+		<input type="hidden" id="ctx" value="${ctx!}"/>
+		<p id="loading">正在加载...</p>
+		<ul id="tree" class="ztree" layoutH="63"></ul>
+		<input type="hidden" id="roleid" />
+		<div class="panelBar">
+			<div class="panelBar" style="margin-top: -1px;">
+				<ul class="toolBar">
+					<li><a class="edit" id="saveBut"><span style="color: red">保存（绑定权限后点击保存按钮更新权限）</span></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<script src="${ctx!}/html/js/admin/rolerescTree.js" type="text/javascript"></script>

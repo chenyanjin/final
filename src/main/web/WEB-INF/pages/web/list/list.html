@@ -1,0 +1,97 @@
+<!doctype html>
+        <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en-US"> <![endif]-->
+        <!--[if IE 7]>    <html class="lt-ie9 lt-ie8" lang="en-US"> <![endif]-->
+        <!--[if IE 8]>    <html class="lt-ie9" lang="en-US"> <![endif]-->
+        <!--[if gt IE 8]><!--> <html lang="en-US"> <!--<![endif]-->
+        <head>
+                <!-- META TAGS -->
+                <meta charset="UTF-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<meta content="${systemConfig['KEYWORDS']!}" name="keywords">
+				<meta content="${systemConfig['DESCRIPTION']!}" name="description">
+				
+                <title>${systemConfig['WEBNAME']!} - 列表</title>
+
+                <link rel="shortcut icon" href="${ctx}/favicon.png" />
+
+                <!-- Style Sheet-->
+                <#include "../common/css.html">
+
+                <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+                <!--[if lt IE 9]>
+                <script src="${ctx}/html/js/web/html5.js"></script></script>
+                <![endif]-->
+
+        </head>
+
+        <body>
+
+                <!-- Start of Header -->
+              	<#include "../common/header.html">
+                <!-- End of Header -->
+
+                <!-- Start of Page Container -->
+                <div class="page-container">
+                        <div class="container">
+                                <div class="row">
+
+                                        <!-- start of page content -->
+                                        <div class="span8 main-listing">
+                                        		<#list page.list as list>
+                                                <article class="format-standard type-post hentry clearfix">
+                                                        <header class="clearfix">
+                                                                <h3 class="post-title">
+                                                                        <a href="${ctx!}/web/single/${list.id!}"><#if list.type = '1'>转：</#if>${list.title!}</a>
+                                                                </h3>
+
+                                                                <div class="post-meta clearfix">
+                                                                        <span class="date">${list.create_time!}</span>
+                                                                        <span class="category"><a href="${ctx!}/web/list/1-${listBlogTagId.get(list.id)!}" title="显示${listBlogTagName.get(list.id)!} 标签的文章">${listBlogTagName.get(list.id)!}</a></span>
+                                                                        <span class="like-count">${list.support!}</span>
+                                                                </div><!-- end of post meta -->
+                                                        </header>
+                                                       
+	                                                  	<#if list.content?length gte 400>
+	                                                  			 <p>${list.content?substring(0,400)}</p>
+	                                                   	<#else>
+	                                                   			 <p>${list.content}</p>
+	                                                   	</#if>
+                                                </article>
+                                                 <span><a class="btn btn-success" href="${ctx!}/web/single/${list.id!}" >阅读全文</a></span>
+                                                </#list>
+                                                
+                                                <!-- start of pagination -->
+                                                <#include "../common/page.html">
+                                                <!-- end of pagination -->
+
+                                        </div>
+                                        <!-- end of page content -->
+
+                                        <!-- start of sidebar -->
+                                        <aside class="span4 page-sidebar">
+
+								                <!-- Start of Footer -->
+								               <#include "../common/support.html">
+								               <!-- End of Footer -->
+
+                                               <!-- Start of Footer -->
+								               <#include "../common/newReply.html">
+								               <!-- End of Footer -->
+
+                                        </aside>
+                                        <!-- end of sidebar -->
+                                </div>
+                        </div>
+                </div>
+                <!-- End of Page Container -->
+
+                <!-- Start of Footer -->
+                <#include "../common/footer.html">
+                <!-- End of Footer -->
+
+                <a href="#top" id="scroll-top"></a>
+
+                <!-- script -->
+                <#include "../common/js.html">
+</body>
+</html>

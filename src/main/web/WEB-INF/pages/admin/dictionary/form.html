@@ -1,0 +1,52 @@
+<div class="pageContent">
+	<form method="post" action="${ctx!}/admin/dictionary/modify" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+		<div class="pageFormContent">
+			<input name="dictionary.id" type="hidden" value="${dictionary.id!}"/>
+			<P>
+				<label style="text-align: right;">上级数据：</label>
+				<select name="dictionary.pid" class="combox" onchange="hideShow(this.value)">
+					<option value="">无上级</option>
+					<#list parent as p>
+						<option value="${p.id}" <#if dictionary.pid?? && dictionary.pid == p.id>selected="selected"</#if>>
+							|-${p.name}<#if p.enable == '1'>（停用）</#if>
+						</option>
+					</#list>
+				</select>
+			</P>
+			<p>
+				<label style="text-align: right;">排序：</label>
+				<input name="dictionary.sort" type="text" maxlength="3" value="${dictionary.sort!}" class="number"/>
+			</p>
+			<p>
+				<label style="text-align: right;">状态：</label>
+				<input type="radio" name="dictionary.enable" class="required" value="0" <#if !dictionary.enable?? || dictionary.enable == '0'>checked="checked"</#if>/>启用
+				<input type="radio" name="dictionary.enable" class="required" value="1" <#if dictionary.enable?? && dictionary.enable == '1'>checked="checked"</#if>/>停用
+			</p>
+			<p>
+				<label style="text-align: right;">代码：</label>
+				<input id="code" name="dictionary.code" type="text" maxlength="20" value="${dictionary.code!}" <#if dictionary.pid?? || dictionary.code??>class="disabled" disabled="true"<#else>class="required"</#if>/>
+			</p>
+			<p>
+				<label style="text-align: right;">名称：</label>
+				<input name="dictionary.name" type="text" value="${dictionary.name!}" class="required"/>
+			</p>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li>
+					<div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+				</li>
+			</ul>
+		</div>
+	</form>
+	<script language="javascript">
+		function hideShow(pId){
+			if (pId != ""){
+				document.getElementById("code").className="textInput";
+			}else{
+				document.getElementById("code").className="textInput required";
+			}
+		}
+	</script>
+</div>

@@ -1,0 +1,89 @@
+<div class="pageHeader">
+	<form id="pagerForm" action="${ctx!}/admin/link/list" onsubmit="return navTabSearch(this)" method="post">
+		<input type="hidden" name="pageNum" value="${datas.pageNumber!}" />
+		<input type="hidden" name="numPerPage" value="${datas.pageSize!}" />
+		<div class="searchBar">
+			<table class="searchContent">
+				<tr>
+					<td>名称：<input type="text" class="focus highlightText" name="link.name" value="${link.name!}" alt="名称 向后模糊查找"/></td>
+					<td class="nowrap">
+						<select name="link.type">
+							<option value="">选择类型</option>
+							<#list linkTypes as lts>
+								<option value="${lts.id}" <#if link.type?? && link.type == lts.id>selected="selected"</#if>>${lts.name}</option>
+							</#list>
+						</select>
+					</td>
+					<td>
+						<select name="link.enable" >
+							<option value="">启用状态</option>
+							<option value="0"<#if link.enable?? && link.enable = '0'>selected="selected"</#if>>启用</option>
+							<option value="1"<#if link.enable?? && link.enable = '1'>selected="selected"</#if>>停用</option>
+						</select>
+					</td>
+					<td><div class="button"><div class="buttonContent"><button type="submit">查询</button></div></div></td>
+				</tr>
+			</table>
+		</div>
+	</form>
+</div>
+
+<div class="pageContent">
+	<div class="panelBar">
+		<ul class="toolBar">
+			<li><a class="add" href="${ctx!}/admin/link/toModifyPage" target="dialog" rel="modifyDialog" title="新增链接" mask="false" width="520" height="285"><span>添加</span></a></li>
+			<li class="line">line</li>
+			<li><a class="delete" href="${ctx!}/admin/link/delete" target="selectedTodo" rel="ids" title="确认删除？"><span>批量删除</span></a></li>
+		</ul>
+	</div>
+	<table class="table" width="100%" layoutH="112">
+		<thead>
+			<tr>
+				<th width="40" align="center" ><input type="checkbox" class="checkboxCtrl" group="ids" /></th>
+				<th width="40" align="center" >序号</th>
+				<th width="150" align="left" >名称</th>
+				<th width="200" align="left" >URL</th>
+				<th width="100" align="center" >类型</th>
+				<th width="300" align="center" >图片路径</th>
+				<th width="40" align="center" >排序</th>
+				<th width="150" align="center" >添加时间</th>
+				<th width="150" align="center" >更新时间</th>
+				<th width="100" align="center" >操作</th>
+			</tr>
+		</thead>
+		<tbody>
+			<#list datas.list as s>
+			<tr>
+				<td><input type="checkbox" name="ids" value="${s.id}" /></td>
+				<td>${s_index + (datas.pageSize*(datas.pageNumber-1)) + 1}</td>
+				<td>${s.name!}</td>
+				<td><a href="${s.url!}" target="_blank" >${s.url!}</a></td>
+				<td>${s.type_name!}</td>
+				<td>${s.img_path!}</td>
+				<td>${s.sort!}</td>
+				<td>${s.create_time?string("yyyy-MM-dd HH:mm")!}</td>
+				<td><#if s.update_time??>${s.update_time?string("yyyy-MM-dd HH:mm")!}</#if></td>
+				<td>
+					&nbsp;
+					<a class="btnEdit" href="${ctx!}/admin/link/toModifyPage/${s.id!}" target="dialog" title="编辑链接信息" rel="modifyDialog" mask="true" width="520" height="285">编辑</a>
+					<#if !s.img_path?? || "" != s.img_path>
+						&nbsp;
+						<a class="btnView" href="${ctx!}/${s.img_path!}" target="_blank" title="查看图片">查看</a>
+					</#if>
+				</td>
+			</tr>
+			</#list>
+		</tbody>
+	</table>
+	<div class="panelBar">
+		<div class="pages">
+			<span>显示</span> <select class="combox" name="numPerPage" onchange="navTabPageBreak({numPerPage:this.value})">
+				<option value="20"<#if datas.pageSize == 20> selected</#if>>20</option>
+				<option value="50"<#if datas.pageSize == 50> selected</#if>>50</option>
+				<option value="100"<#if datas.pageSize == 100> selected</#if>>100</option>
+				<option value="200"<#if datas.pageSize == 200> selected</#if>>200</option>
+			</select> <span>条，共<font style="color:red;font-weight:bold;">${datas.totalRow!}</font>条，共<font style="color:red;font-weight:bold;">${datas.totalPage!}</font>页&nbsp;&nbsp;&nbsp;&nbsp;</span>
+		</div>
+		<div class="pagination" targetType="navTab" totalCount="${datas.totalRow!}" numPerPage="${datas.pageSize!}" pageNumShown="10" currentPage="${datas.pageNumber!}"></div>
+	</div>
+</div>

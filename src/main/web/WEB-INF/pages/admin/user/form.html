@@ -1,0 +1,62 @@
+<div class="pageContent">
+	<form method="post" action="${ctx!}/admin/user/modifyUser" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+		<div class="pageFormContent">
+			<input name="user.id" type="hidden" value="${user.id!}"/>
+			<p>
+				<label style="text-align: right;">用户名：</label>
+				<#if !user.id??>
+				<input name="user.username" type="text" value="${user.username!}" class="required"/>
+				<#else>
+				<input name="user.username" type="text" value="${user.username!}" class="readonly" readonly="readonly"/>
+				</#if>
+			</p>
+			<p>
+				<label style="text-align: right;">姓名：</label>
+				<input name="user.name" type="text" value="${user.name!}" class="required"/>
+			</p>
+			<p>
+				<label style="text-align: right;">昵称：</label>
+				<input name="user.nickname" type="text" value="${user.nickname!}" />
+			</p>
+			<p>
+				<label style="text-align: right;">性别：</label>
+				<input type="radio" name="user.sex" class="required" value="0" <#if !user.sex?? || user.sex == '0'>checked="checked"</#if>/>男
+				<input type="radio" name="user.sex" class="required" value="1" <#if user.sex?? && user.sex == '1'>checked="checked"</#if>/>女
+			</p>
+			<p>
+				<label style="text-align: right;">生日：</label>
+				<input name="user.birthday" value="${user.birthday!}" type="text" class="date textInput readonly" readonly="true" datefmt="yyyy-MM-dd" />
+				<a class="inputDateButton" href="javascript:;">选择</a>
+			</p>
+			<p>
+				<label style="text-align: right;">个人网站：</label>
+				<input name="user.website" type="text" value="${user.website!}" />
+			</p>
+			<p>
+				<label style="text-align: right;">用户类型：</label>
+				<input type="radio" name="user.type" class="required" value="0" <#if !user.type?? || user.type == '0'>checked="checked"</#if>/>普通用户
+				<input type="radio" name="user.type" class="required" value="1" <#if user.type?? && user.type == '1'>checked="checked"</#if>/>管理员
+			</p>
+			<p>
+				<label style="text-align: right;">状态：</label>
+				<input type="radio" name="user.enable" class="required" value="0" <#if !user.enable?? || user.enable == '0'>checked="checked"</#if>/>启用
+				<input type="radio" name="user.enable" class="required" value="1" <#if user.enable?? && user.enable == '1'>checked="checked"</#if>/>停用
+			</p>
+			<p class="nowrap" style="height: 70px;position: relative;">
+				<label style="text-align: right;">角色：</label>
+				<#list roleRescs as role>
+					<input type="checkbox" name="rids" value="${role.id}" <#if role.enable == '1'>disabled="disabled"</#if> <#if roleStr?index_of("-"+role.id?string+"-") != -1>checked="checked"</#if> class="required" style="position: relative; top: 3px;" />
+					<#if role.enable == '0'> <span style="color:green;top: 10px;">${role.name}</span> <#else> <span style="color:red;top: 10px;">${role.name}</span> </#if>
+				</#list>
+			</p>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li>
+					<div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+				</li>
+			</ul>
+		</div>
+	</form>
+</div>

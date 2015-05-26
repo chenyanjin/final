@@ -1,0 +1,101 @@
+<link href="${ctx}/html/dwz/xheditor/xheditor_plugins/insertCode/insertCode.css" rel="stylesheet" type="text/css" media="screen" />
+<script src="${ctx}/html/dwz/xheditor/xheditor_plugins/insertCode/insertCode.js" type="text/javascript" charset="utf-8" ></script>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+	//初始化xhEditor编辑器插件
+	$('#content').xheditor({
+		plugins:plugins,  //使用我们定义的插件  
+		loadCSS:'<style>pre{margin-left:2em;border-left:3px solid #CCC;padding:0 1em;}</style>',
+		tools:'full',
+		forcePtag:false, // 取消强制p标签
+		width: 720,
+		height: 330,
+		upMultiple:true,
+	       	upImgUrl: "${ctx}/admin/blog/xhEditorUpload",
+	       	upImgExt: "jpg,jpeg,gif,bmp,png",
+	       	upFlashUrl:"${ctx}/admin/blog/xhEditorUpload",
+	       	upFlashExt:"swf",
+	       	upMediaUrl:"${ctx}/admin/blog/xhEditorUpload",
+	       	upMediaExt:"wmv,avi,wma,mp3,mid",
+	       	onUpload:insertUpload,
+	       	html5Upload:false
+	   	});
+		//xbhEditor编辑器图片上传回调函数
+		function insertUpload(msg) {
+	        var _msg = msg.toString();  
+	        var _picture_name = _msg.substring(_msg.lastIndexOf("/")+1);  
+	        var _picture_path = Substring(_msg);
+	        var _str = "<input type='checkbox' name='_pictures' value='"+_picture_path+"' checked='checked' onclick='return false'/><label>"+_picture_name+"</label><br/>";
+	        $("#content").append(_msg);
+			$("#uploadList").append(_str);
+		}
+		//处理服务器返回到回调函数的字符串内容,格式是JSON的数据格式.  
+	    function Substring(s){
+	        return s.substring(s.substring(0,s.lastIndexOf("/")).lastIndexOf("/"),s.length);
+	    }
+	});
+</script>
+<div class="pageContent">
+	<form method="post" action="${ctx!}/admin/blog/modify"  class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+		<div class="pageFormContent" layoutH="60">
+			<input name="blog.id" type="hidden" value="${blog.id!}"/>
+			<p>
+				<label style="text-align: right;">标题：</label>
+  				<input type="text" name="blog.title" class="required" maxlength="50" value="${blog.title!}" />
+			</p>
+			<p class="nowrap">
+				<label style="text-align: right;">类型：</label>
+				<input type="radio" name="blog.type" class="required" value="0" onclick="hideOrShow(this.value)" <#if !blog.type?? || blog.type == '0'>checked="checked"</#if>/>原创
+				<input type="radio" name="blog.type" class="required" value="1" onclick="hideOrShow(this.value)" <#if blog.type?? && blog.type == '1'>checked="checked"</#if>/>收藏
+			</p>
+			<p class="nowrap">
+				<label style="text-align: right;">收藏url：</label>
+				<#if !blog?? && blog.type == '0'>
+					<input type="text" id="typeInput" name="blog.share_url" class="textInput disabled" disabled="disabled" />
+				<#else>
+					<input type="text" id="typeInput" name="blog.share_url" class="required textInput" value="${blog.share_url!}" />
+				</#if>
+			</p>
+			<p class="nowrap">
+				<label style="text-align: right;">标签：</label>
+				<#list tags as t>
+  					<input type="checkbox" name="tag_ids" value="${t.id!}" <#if tagStr?index_of("-"+t.id?string+"-") != -1>checked="checked"</#if> /><span>${t.name!}</span>
+  				</#list>
+			</p>
+			<p class="nowrap">
+				<label style="text-align:right;">创建时间：</label>
+  				<input type="text" name="blog.create_time" class="date textInput readonly" type="text" readonly="true" datefmt="yyyy-MM-dd HH:mm:ss" <#if blog.create_time??>value="${blog.create_time?string("yyyy-MM-dd HH:mm:ss")}"</#if>/>
+  				<a class="inputDateButton" href="javascript:;">选择</a>
+  				<span class="inputInfo">不填则默认为当前时间</span>
+			</p>
+			<dl class="nowrap">
+				<dt style="text-align:right;">新闻内容：</dt>
+				<dd>
+  					<textarea id="content" name="blog.content" class="textInput">${blog.content!}</textarea>
+  				</dd>
+  				<div id="uploadList" style="display: none;"></div>
+			</dl>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li>
+					<div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+				</li>
+			</ul>
+		</div>
+	</form>
+	<script language="javascript">
+		//显示与隐藏图片上传区域
+		function hideOrShow(v){
+			if (v == 1){
+				document.getElementById("typeInput").className = "required textInput";
+				document.getElementById("typeInput").disabled = "";
+			}else{
+				document.getElementById("typeInput").className = "textInput disabled";
+				document.getElementById("typeInput").disabled = "disabled";
+			}
+		}
+	</script>
+</div>

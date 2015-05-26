@@ -1,0 +1,141 @@
+<!doctype html>
+        <!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en-US"> <![endif]-->
+        <!--[if IE 7]>    <html class="lt-ie9 lt-ie8" lang="en-US"> <![endif]-->
+        <!--[if IE 8]>    <html class="lt-ie9" lang="en-US"> <![endif]-->
+        <!--[if gt IE 8]><!--> <html lang="en-US"> <!--<![endif]-->
+        <head>
+                <!-- META TAGS -->
+                <meta charset="UTF-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+                <title>${blog.title!} - ${systemConfig['WEBNAME']!}</title>
+				<meta content="${systemConfig['KEYWORDS']!}" name="keywords">
+				<meta content="${systemConfig['DESCRIPTION']!}" name="description">
+				
+                <link rel="shortcut icon" href="${ctx}/favicon.png" />
+
+                <!-- Style Sheet-->
+                <#include "../common/css.html">
+
+                <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+                <!--[if lt IE 9]>
+                <script src="${ctx}/html/js/web/html5.js"></script></script>
+                <![endif]-->
+
+        </head>
+
+        <body>
+
+                <!-- Start of Header -->
+              	<#include "../common/header.html">
+                <!-- End of Header -->
+
+                <!-- Start of Page Container -->
+                <div class="page-container">
+                        <div class="container">
+                                <div class="row">
+                                        <!-- start of page content -->
+                                        <div class="span8 page-content">
+                                                <ul class="breadcrumb">
+                                                        <li><a href="${ctx!}/index">首页</a><span class="divider">/</span></li>
+                                                        <li><a href="${ctx!}/web/list/1-${singleBlogTag['id']!}" title="显示${singleBlogTag['name']!} 标签的文章">${singleBlogTag['name']!}</a> <span class="divider">/</span></li>
+                                                        <li class="active">${blog.title!}</li>
+                                                </ul>
+                                                <article class=" type-post format-standard hentry clearfix">
+                                                        <h1 class="post-title"><a href="${ctx!}/web/single/${blog.id!}"><#if blog.type = '1'>转：</#if>${blog.title!}</a></h1>
+                                                        <div class="post-meta clearfix">
+                                                        		<span class="author">${blog.user_nickname!}</span>
+                                                                <span class="date">${blog.create_time!}</span>
+                                                                <span class="category"><a href="${ctx!}/web/list/1-${singleBlogTag['id']!}" title="显示${singleBlogTag['name']!} 标签的文章">${singleBlogTag['name']!}</a></span>
+                                                                <span class="comments"><a href="#comments" title="评论">评论</a></span>
+                                                                <span class="like-count">${blog.support!}</span>
+                                                        </div><!-- end of post meta -->
+                                                        <p>${blog.content!}</p>
+                                                </article>
+                                                
+                                                <!-- 百度分享工具 Start -->
+                                                <#include "../common/bdShareUtil.html">
+												<!-- 百度分享工具 End -->
+												
+                                                <div class="like-btn">
+                                                        <form id="like-it-form" action="#" method="post">
+                                                                <span class="like-it " onclick="javascript:support();">${blog.support!}</span>
+                                                                <input type="hidden" name="blog_id" value="1">
+                                                                <input type="hidden" name="action" value="like_it">
+                                                        </form>
+                                                        <span class="tags">
+                                                                <strong>标签:&nbsp;&nbsp;</strong>
+                                                                <#list tags as t>
+                                                                <a href="${ctx!}/web/list/1-${t.tag_id!}" rel="tag">${t.name!}</a>&nbsp; 
+                                                                </#list>
+                                                        </span>
+                                                </div>
+                                                <div class="like-btn">
+                                                		<span class="link">
+                                                        		<strong>转载请注明出处:&nbsp;&nbsp;</strong>
+                                                        		 <a href="http://www.fengyoutian.com${ctx!}/web/single/${blog.id!}" rel="link">http://www.fengyoutian.com${ctx!}/web/single/${blog.id!}</a>
+                                                        </span>
+                                                </div>
+                                                <#if blog.type = '1'>
+                                                 <div class="like-btn">
+                                                 		<span class="link">
+                                                        		<strong>转自:&nbsp;&nbsp;</strong>
+                                                        		<a href="${blog.share_url!}" rel="link">${blog.share_url!}</a>
+                                                        </span>
+                                                 </div>
+                                                 </#if>
+
+                                                <section id="comments">
+                                                		<a href="#" id="comments"></a>
+                                                        <div id="respond">
+                                                                <!-- 多说评论框 start -->
+																<div class="ds-thread" data-thread-key="${blog.id!}" data-title="${blog.title!}" data-url="http://www.fengyoutian.com${ctx!}/web/single/${blog.id!}"></div>
+																<!-- 多说评论框 end -->
+		                                                        </div>
+                                                </section><!-- end of comments -->
+
+                                        </div>
+                                        <!-- end of page content -->
+
+
+                                        <!-- start of sidebar -->
+                                        <aside class="span4 page-sidebar">
+                                        
+                                               	<!-- Start of Support -->
+								        		<#include "../common/support.html">
+								               	<!-- End of Support -->
+												
+												<!-- Start of NewReply -->
+								               	<#include "../common/newReply.html">
+								               	<!-- End of NewReply -->
+
+                                        </aside>
+                                        <!-- end of sidebar -->
+                                </div>
+                        </div>
+                </div>
+                <!-- End of Page Container -->
+
+                <!-- Start of Footer -->
+                <#include "../common/footer.html">
+                <!-- End of Footer -->
+
+                <a href="#top" id="scroll-top"></a>
+
+                <!-- script -->
+                <#include "../common/js.html">
+                
+                <!-- SyntaxHighlighter 代码高亮插件 -->
+                <#include "../common/syntaxHighlighter.html">
+				<script type="text/javascript">
+						function support(){
+							$.ajax({url:"${ctx!}/web/single/support/${blog.id!}",dataType:'json',
+							success:function(msg){
+							if(msg != 1){
+								alert("出错啦");
+							}
+							},error:function(){changecode();alert("数据提交异常！请检查网络");}});
+						}
+					</script>
+</body>
+</html>

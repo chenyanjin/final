@@ -1,0 +1,37 @@
+<div class="pageContent">
+	<form method="post" action="${ctx!}/admin/roleresc/modifyRole" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+		<div class="pageFormContent">
+			<input name="role.id" type="hidden" value="${role.id!}"/>
+			<p>
+				<label style="text-align: right;">名称：</label>
+				<input name="role.name" type="text" value="${role.name!}" class="required"/>
+			</p>
+			<p>
+				<label style="text-align: right;">排序：</label>
+				<input name="role.sort" type="text" maxlength="3" value="${role.sort!}" class="required number"/>
+			</p>
+			<p>
+				<label style="text-align: right;">类型：</label>
+				<input type="radio" name="role.type" class="required" value="0" <#if !role.type?? || role.type == '0'>checked="checked"</#if>/>前台
+				<input type="radio" name="role.type" class="required" value="1" <#if role.type?? && role.type == '1'>checked="checked"</#if>/>后台
+			</p>
+			<p>
+				<label style="text-align: right;">状态：</label>
+				<input type="radio" name="role.enable" class="required" value="0" <#if !role.enable?? || role.enable == '0'>checked="checked"</#if>/>启用
+				<input type="radio" name="role.enable" class="required" value="1" <#if role.enable?? && role.enable == '1'>checked="checked"</#if>/>停用
+			</p>
+			<p class="nowrap">
+				<label style="text-align: right;">描述：</label>
+				<textarea name="role.remark" cols="20" rows="4">${role.remark!}</textarea>
+			</p>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li>
+					<div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+				</li>
+			</ul>
+		</div>
+	</form>
+</div>

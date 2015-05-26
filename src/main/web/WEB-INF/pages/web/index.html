@@ -1,0 +1,142 @@
+<!doctype html>
+		<!--[if lt IE 7]> <html class="lt-ie9 lt-ie8 lt-ie7" lang="en-US"> <![endif]-->
+		<!--[if IE 7]>    <html class="lt-ie9 lt-ie8" lang="en-US"> <![endif]-->
+		<!--[if IE 8]>    <html class="lt-ie9" lang="en-US"> <![endif]-->
+		<!--[if gt IE 8]><!--> <html lang="en-US"> <!--<![endif]-->
+        <head>
+                <!-- META TAGS -->
+                <meta charset="UTF-8" />
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta content="${systemConfig['KEYWORDS']!}" name="keywords">
+				<meta content="${systemConfig['DESCRIPTION']!}" name="description">
+				<!-- weibo  -->
+				<meta property="wb:webmaster" content="34f9a8279f8779f1" />
+				<!-- qq -->
+				<meta property="qc:admins" content="33113756076656717541166375" />
+
+                <title>${systemConfig['WEBNAME']!} - 首页</title>
+
+                <link rel="shortcut icon" href="${ctx}/favicon.png" />
+
+                <!-- Style Sheet-->
+                <#include "common/css.html">
+
+                <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+                <!--[if lt IE 9]>
+                <script src="${ctx}/html/js/webhtml5.js"></script></script>
+                <![endif]-->
+
+        </head>
+
+        <body>
+
+                <!-- Start of Header -->
+              	<#include "common/header.html">
+                <!-- End of Header -->
+
+                <!-- Start of Page Container -->
+                <div class="page-container">
+                        <div class="container">
+                                <div class="row">
+
+                                        <!-- start of page content -->
+                                        <div class="span8 page-content">
+
+                                                <!-- Basic Home Page Template -->
+                                                <div class="row separator">
+                                                        <section class="span4 articles-list">
+                                                                <h3>热门</h3>
+                                                                <ul class="articles">
+                                                                		<#list hotBlogs as hb>
+                                                                        <li class="article-entry standard">
+                                                                                <h4><a href="${ctx!}/web/single/${hb.id!}"><#if hb.type = '1'>转：</#if>${hb.title!}</a></h4>
+                                                                                <span class="article-meta">
+                                                                                		${hb.create_time!} 
+                                                                                		<a href="${ctx!}/web/list/1-${hotBlogTagId.get(hb.id)!}" title="显示${hotBlogTagName.get(hb.id)!} 标签的文章">
+                                                                               			<#if hotBlogTagName.get(hb.id)?length gte 28>
+                                                                               					${hotBlogTagName.get(hb.id)?substring(0,28)!}...
+                                                                               			<#else>
+                                                                               					${hotBlogTagName.get(hb.id)!}
+                                                                               			</#if>
+	                                                                                	</a>
+	                                                                            </span>
+                                                                                <span class="like-count">${hb.support!}</span>
+                                                                        </li>
+                                                                        </#list>
+                                                                </ul>
+                                                        </section>
+
+                                                        <section class="span4 articles-list">
+                                                                <h3>最新</h3>
+                                                                <ul class="articles">
+                                                                        <#list newBlogs as nb>
+                                                                        <li class="article-entry standard">
+                                                                                <h4><a href="${ctx!}/web/single/${nb.id!}"><#if nb.type = '1'>转：</#if>${nb.title!}</a></h4>
+                                                                                <span class="article-meta">
+                                                                                		${nb.create_time!} 
+                                                                                		<a href="${ctx!}/web/list/1-${newBlogTagId.get(nb.id)!}" title="显示${newBlogTagName.get(nb.id)!} 标签的文章">
+                                                                                		<#if newBlogTagName.get(nb.id)?length gte 28>
+                                                                               					${newBlogTagName.get(nb.id)?substring(0,28)!}...
+                                                                               			<#else>
+                                                                               					${newBlogTagName.get(nb.id)!}
+                                                                               			</#if>
+                                                                                		</a>
+                                                                                </span>
+                                                                                <span class="like-count">${nb.support!}</span>
+                                                                        </li>
+                                                                        </#list>
+                                                                </ul>
+                                                        </section>
+                                                </div>
+                                        </div>
+                                        <!-- end of page content -->
+
+                                        <!-- start of sidebar -->
+                                        <aside class="span4 page-sidebar">
+                                        
+                                        		<!-- Start of My -->
+								                <#include "common/my.html">
+								                <!-- End of My -->
+								                
+								                <!-- Start of Weibo -->
+								               	<#include "common/weibo.html">
+								               	<!-- End of Weibo -->
+								                
+                                                <section class="widget">
+                                                        <div class="quick-links-widget">
+                                                                <h3 class="title">快速链接</h3>
+                                                                <ul id="menu-quick-links" class="menu clearfix">
+                                                                        <li><a href="${ctx!}/index">首页</a></li>
+                                                                        <li><a href="${ctx!}/web/list">文章列表</a></li>
+                                                                        <li><a href="${ctx!}/web/message">留言板</a></li>
+                                                                        <!-- <li><a href="${ctx!}/about">关于</a></li> -->
+                                                                </ul>
+                                                        </div>
+                                                </section>
+                                                
+                                                <section class="widget">
+                                                        <h3 class="title">标签</h3>
+                                                        <div class="tagcloud">
+                                                        		<#list tags as t>
+                                                                	<a href="${ctx!}/web/list/1-${t.id!}" class="btn btn-mini">${t.name!}(${tagBlogNumber.get(t.id)!})</a>
+                                                                </#list>
+                                                        </div>
+                                                </section>
+                                                
+                                        </aside>
+                                        <!-- end of sidebar -->
+                                </div>
+                        </div>
+                </div>
+                <!-- End of Page Container -->
+
+                <!-- Start of Footer -->
+                <#include "common/footer.html">
+                <!-- End of Footer -->
+
+                <a href="#top" id="scroll-top"></a>
+
+                <!-- script -->
+                <#include "common/js.html">
+</body>
+</html>

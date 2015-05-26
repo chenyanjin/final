@@ -1,0 +1,37 @@
+
+<div class="pageContent">
+	<form method="post" action="${ctx!}/admin/webConfig/modify" class="pageForm required-validate" onsubmit="return validateCallback(this, dialogAjaxDone);">
+		<div class="pageFormContent">
+			<input id="webConfig.id" name="webConfig.id" type="hidden" value="${webConfig.id!}"/>
+			<p>
+				<label style="text-align: right;">键：</label>
+				<#if !webConfig.id??>
+				<input id="webConfig.k" name="webConfig.k" type="text" class="required" value="${webConfig.k!}"/>
+				<#else>
+				<input name="webConfig.k" type="text" value="${webConfig.k!}" class="required readonly" readonly="readonly"/>
+				</#if>
+			</p>
+			<p>
+				<label style="text-align: right;">值：</label>
+				<input id="webConfig.val" name="webConfig.val" type="text" class="required" value="${webConfig.val!}"/>
+			</p>
+			<p>
+				<label style="text-align: right;">系统配置：</label>
+				<input type="radio" name="webConfig.is_system" class="required" value="0" <#if !webConfig.is_system?? || webConfig.is_system == '0'>checked="checked"</#if>/>否
+				<input type="radio" name="webConfig.is_system" class="required" value="1" <#if webConfig.is_system?? && webConfig.is_system == '1'>checked="checked"</#if>/>是
+			</p>
+			<p class="nowrap">
+				<label style="text-align: right;">描述：</label>
+				<textarea name="webConfig.des" cols="20" rows="4">${webConfig.des!}</textarea>
+			</p>
+		</div>
+		<div class="formBar">
+			<ul>
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li>
+					<div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+				</li>
+			</ul>
+		</div>
+	</form>
+</div>

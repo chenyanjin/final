@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>${systemConfig['WEBNAME']!} -后台登陆</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<meta content="${systemConfig['KEYWORDS']!}" name="keywords">
+	<meta content="${systemConfig['DESCRIPTION']!}" name="description">
+	
+	<link rel="shortcut icon" href="${ctx}/favicon.png" />
+	
+	<link href="${ctx}/html/css/admin/login.css" rel="stylesheet" type="text/css" rel="stylesheet" media="screen"/>
+	<script src="${ctx}/html/dwz/js/jquery-1.7.2.min.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	$.ajaxSetup ({
+		cache: false
+		});
+		function changecode(){
+			$("#codeimg").attr("src",'${ctx}/admin/login/jpg?id='+Math.random()*10);
+		}
+		function login(){
+			$form=$("form");
+			var loginName=$("#loginName").val();
+			var loginPwd=$("#loginPwd").val();
+			var code=" ";
+			if(loginName=='' || loginPwd=='' || code==''){
+				changecode();
+				alert("有未填写项，请完善输入！");
+			}else{
+				$.ajax({url:"${ctx}/admin/login/validateLogin",data:$form.serialize(),dataType:'json',
+				success:function(msg){
+				if(msg.statusCode == 200){
+					$form=$("form");
+					$form.attr("action","${ctx}/admin/loading");
+					$form.attr("onsubmit","");
+					$form.submit();
+				}else{
+					changecode();
+					alert(msg.message);
+				}
+				},error:function(){changecode();alert("数据提交异常！请检查网络");}});
+			}
+		}
+		
+		function enterPress(e)
+		{ 
+			if (e.keyCode == 13) return login(); 
+		}
+	</script>
+
+</head>
+
+<body>
+	<div id="login">
+		<div id="login_header">
+			<h1 class="login_logo">
+				<a href="#"><!-- <img src="${ctx}/html/css/admin/img/login_logo.gif" /> --></a>
+			</h1>
+			<div class="login_headerContent">
+				<div class="navList">
+					<ul>
+						<li><a href="#">设为首页</a></li>
+					</ul>
+				</div>
+				<h2 class="login_title"><!-- <img src="${ctx}/html/css/admin/img/login_title.png" /> --></h2>
+			</div>
+		</div>
+		<div id="login_content">
+			<div class="loginForm">
+				<form method="post" id="loginInFrom" action="${ctx}/admin/login/validateLogin" onsubmit="javascript:return login();">
+					<p>
+						<label>用户名：</label>
+						<input type="text" id="loginName" name="loginName" class="login_input" />
+					</p>
+					<p>
+						<label>密码：</label>
+						<input type="password" id="loginPwd" name="loginPwd" class="login_input" />
+					</p>
+					<p>
+						<label>验证码：</label>
+						<input class="code" id="code" name="code" type="text" onkeydown="javascript:enterPress(event);" style="width:72px;" />
+						<span><img src="${ctx}/admin/login/jpg" id="codeimg" onclick="this.src='${ctx}/admin/login/jpg?id='+Math.random()*10" title="点击更新验证码" width="75" height="24" /></span>
+					</p>
+					<div class="login_bar">
+						<div style="padding: 15px 0px 15px 50px;">
+							<a class="sub" onclick="javascript:login();"></a>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="login_banner"><!-- <img src="${ctx}/html/css/admin/img/login_banner.jpg" /> --></div>
+			<div class="login_main">
+			
+			</div>
+		</div>
+		<div id="login_footer">
+			${systemConfig['WEBCOPYRIGHT']!}<a href="http://www.miitbeian.gov.cn/" target="_blank" style="color: #6c9683;">${systemConfig['ICP']!}</a>
+		</div>
+	</div>
+</body>
+</html>

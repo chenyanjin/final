@@ -1,0 +1,46 @@
+
+<div class="pageContent">
+	<form method="post" action="${ctx!}/admin/link/modify" class="pageForm required-validate" onsubmit="return iframeCallback(this, dialogAjaxDone);" enctype="multipart/form-data">
+		<div class="pageFormContent">
+			<input id="link.id" name="link.id" type="hidden" value="${link.id!}"/>
+			<p>
+				<label style="text-align: right;">名称：</label>
+				<input id="link.name" name="link.name" type="text" class="required" maxlength="20" value="${link.name!}"/>
+			</p>
+			<p>
+				<label style="text-align: right;">地址：</label>
+				<input id="link.url" name="link.url" type="text" class="required" maxlength="150" value="${link.url!}"/>
+			</p>
+			<P>
+				<label style="text-align: right;">类型：</label>
+				<select name="link.type" class="combox required">
+					<#list linkTypes as lts>
+						<option value="${lts.id}" <#if link.type?? && link.type == lts.id>selected="selected"</#if>>${lts.name}</option>
+					</#list>
+				</select>
+			</P>
+			<p>
+				<label style="text-align: right;">状态：</label>
+				<input type="radio" name="link.enable" class="required" value="0" <#if !link.enable?? || link.enable == '0'>checked="checked"</#if>/>启用
+				<input type="radio" name="link.enable" class="required" value="1" <#if link.enable?? && link.enable == '1'>checked="checked"</#if>/>停用
+			</p>
+			<p>
+				<label style="text-align: right;">图片上传:</label>
+				<input type="file" id="file" name="file"/>
+			</p>
+			<p>
+				<label style="text-align: right;">排序：</label>
+				<input id="link.sort" name="link.sort" type="text" class="required number" maxlength="11" value="${link.sort!}"/>
+			</p>
+		</div>
+		<div class="formBar">
+			<ul>
+				<!--<li><a class="buttonActive" href="javascript:;"><span>保存</span></a></li>-->
+				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">保存</button></div></div></li>
+				<li>
+					<div class="button"><div class="buttonContent"><button type="button" class="close">取消</button></div></div>
+				</li>
+			</ul>
+		</div>
+	</form>
+</div>
